@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+:root {
+  --font-inter: "Inter", sans-serif;
+}
+
+html {
+  font-family: var(--font-inter);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+}
