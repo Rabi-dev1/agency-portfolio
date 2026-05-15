@@ -35,7 +35,7 @@ const contactItems = [
     ),
     label: "WhatsApp",
     value: "+49 176 87910568",
-    href: "https://wa.me/4915253642439",
+    href: "https://wa.me/4917687910568",
   },
   {
     icon: (
@@ -94,7 +94,7 @@ export default function ContactPage() {
 
             {/* WhatsApp CTA */}
             <a
-              href="https://wa.me/4915253642439"
+              href="https://wa.me/4917687910568"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-8 flex items-center gap-3 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold px-6 py-4 rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-md shadow-green-200"

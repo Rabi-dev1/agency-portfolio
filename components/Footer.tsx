@@ -22,7 +22,7 @@ export default function Footer() {
             KI-Automatisierung für lokale Unternehmen.
           </p>
           <a
-            href="https://wa.me/4915253642439"
+            href="https://wa.me/4917687910568"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-[#25D366] hover:text-[#4ade80] text-sm font-medium transition-colors"

@@ -98,7 +98,7 @@ export default function Home() {
                 Kostenlos beraten lassen
               </Link>
               <a
-                href="https://wa.me/4915253642439"
+                href="https://wa.me/4917687910568"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 bg-[#25D366]/20 hover:bg-[#25D366]/30 text-[#4ade80] border border-[#25D366]/30 font-semibold px-8 py-4 rounded-xl transition-all duration-200 hover:-translate-y-0.5"
@@ -206,7 +206,7 @@ export default function Home() {
             wir antworten persönlich und schnell.
           </p>
           <a
-            href="https://wa.me/4915253642439"
+            href="https://wa.me/4917687910568"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-bold px-10 py-4 rounded-xl transition-all duration-200 shadow-lg shadow-green-900/30 hover:-translate-y-0.5 text-lg"
