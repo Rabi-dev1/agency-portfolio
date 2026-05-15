@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung – Kundenpilot",
-  description: "Datenschutzerklärung gemäß DSGVO für kundenpilot.ink",
+  description: "Datenschutzerklärung gemäß DSGVO für kundenpilot.site",
 };
 
 export default function DatenschutzPage() {

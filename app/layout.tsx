@@ -12,11 +12,21 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.kundenpilot.site"),
   title: "Kundenpilot – Mehr Anfragen. Weniger Aufwand.",
   description:
     "Kundenpilot automatisiert Ihre Kundengewinnung mit KI-Chatbots, WhatsApp-Marketing und intelligenter Prozessautomatisierung für lokale Unternehmen.",
   icons: {
     icon: "/logo.png",
+  },
+  openGraph: {
+    title: "Kundenpilot – Mehr Anfragen. Weniger Aufwand.",
+    description:
+      "Kundenpilot automatisiert Ihre Kundengewinnung mit KI-Chatbots, WhatsApp-Marketing und intelligenter Prozessautomatisierung für lokale Unternehmen.",
+    url: "https://www.kundenpilot.site",
+    siteName: "Kundenpilot",
+    locale: "de_DE",
+    type: "website",
   },
 };
 
