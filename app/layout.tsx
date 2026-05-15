@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -9,24 +11,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Rabi Digital Solutions – KI-Automatisierung & Webentwicklung",
+  title: "Kundenpilot – Mehr Anfragen. Weniger Aufwand.",
   description:
-    "Professionelle Webentwicklung, WhatsApp-KI-Chatbots und SEO für lokale Unternehmen in Deutschland. Wir digitalisieren Ihr Unternehmen.",
-  keywords: [
-    "Webentwicklung",
-    "KI-Chatbot",
-    "WhatsApp Bot",
-    "SEO",
-    "Gütersloh",
-    "Digitalagentur",
-  ],
-  authors: [{ name: "Rabi Digital Solutions" }],
-  openGraph: {
-    title: "Rabi Digital Solutions – KI-Automatisierung & Webentwicklung",
-    description:
-      "Professionelle Webentwicklung, WhatsApp-KI-Chatbots und SEO für lokale Unternehmen.",
-    type: "website",
-    locale: "de_DE",
+    "Kundenpilot automatisiert Ihre Kundengewinnung mit KI-Chatbots, WhatsApp-Marketing und intelligenter Prozessautomatisierung.",
+  icons: {
+    icon: "/logo.png",
   },
 };
 
@@ -36,8 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" className={`${inter.variable} scroll-smooth`}>
-      <body className="bg-white text-slate-900 antialiased">{children}</body>
+    <html lang="de" className={inter.variable}>
+      <body className="bg-white text-slate-900 antialiased flex flex-col min-h-screen">
+        <Navigation />
+        <div className="flex-1 pt-[68px]">{children}</div>
+        <Footer />
+      </body>
     </html>
   );
 }
