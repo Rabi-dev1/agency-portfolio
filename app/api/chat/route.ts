@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
 import { NextRequest, NextResponse } from "next/server";
 
 const SYSTEM_PROMPT = `Du bist "Pilot" 🛩️ – der smarte KI-Assistent von KundenPilot (kundenpilot.site).
@@ -127,7 +127,7 @@ DENKE IMMER DARAN: Du bist selbst der beste Beweis dafür, dass KundenPilot erst
 
 export async function POST(req: NextRequest) {
   try {
-    if (!process.env.ANTHROPIC_API_KEY) {
+    if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json(
         {
           reply:
@@ -139,24 +139,24 @@ export async function POST(req: NextRequest) {
 
     const { messages } = await req.json();
 
-    const client = new Anthropic();
+    const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-    const response = await client.messages.create({
-      model: "claude-haiku-4-5",
+    const response = await client.chat.completions.create({
+      model: "gpt-4o-mini",
       max_tokens: 600,
-      system: SYSTEM_PROMPT,
-      messages: messages.slice(-12).map((m: { role: string; content: string }) => ({
-        role: m.role as "user" | "assistant",
-        content: m.content,
-      })),
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        ...messages.slice(-12).map((m: { role: string; content: string }) => ({
+          role: m.role as "user" | "assistant",
+          content: m.content,
+        })),
+      ],
     });
 
-    const content = response.content[0];
-    if (content.type !== "text") {
-      throw new Error("Unexpected response type");
-    }
+    const reply = response.choices[0]?.message?.content;
+    if (!reply) throw new Error("No reply from OpenAI");
 
-    return NextResponse.json({ reply: content.text });
+    return NextResponse.json({ reply });
   } catch (error) {
     console.error("Chat API error:", error);
     return NextResponse.json(
