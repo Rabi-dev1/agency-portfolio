@@ -28,15 +28,15 @@ export default function ImpressumPage() {
             <h2 className="text-xl font-bold text-slate-900 mb-3">Kontakt</h2>
             <div className="space-y-1.5">
               <p>
-                <strong>Telefon:</strong>{" "}
-                <a href="tel:+4917687910568" className="text-blue-700 hover:underline">
-                  0176 87910568
+                <strong>WhatsApp:</strong>{" "}
+                <a href="https://wa.me/4917687910568" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
+                  +49 176 87910568
                 </a>
               </p>
               <p>
                 <strong>E-Mail:</strong>{" "}
-                <a href="mailto:Rabi.19@icloud.com" className="text-blue-700 hover:underline">
-                  Rabi.19@icloud.com
+                <a href="mailto:KundenPilot@gmail.com" className="text-blue-700 hover:underline">
+                  KundenPilot@gmail.com
                 </a>
               </p>
             </div>

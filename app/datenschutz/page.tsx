@@ -19,10 +19,9 @@ export default function DatenschutzPage() {
             <address className="not-italic leading-relaxed">
               <strong>Gharbi Mshko</strong><br />
               Kundenpilot<br />
-              Büsumerstraße 31, 33729 Bielefeld<br />
               E-Mail:{" "}
-              <a href="mailto:Rabi.19@icloud.com" className="text-blue-700 hover:underline">
-                Rabi.19@icloud.com
+              <a href="mailto:KundenPilot@gmail.com" className="text-blue-700 hover:underline">
+                KundenPilot@gmail.com
               </a>
             </address>
           </section>

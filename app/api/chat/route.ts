@@ -22,7 +22,7 @@ UNTERNEHMEN
 - Name: KundenPilot | Slogan: "Mehr Anfragen. Weniger Aufwand."
 - Inhaber: Gharbi Mshko – persoenlicher Ansprechpartner vor Ort in Bielefeld
 - Adresse: Buesumerstrasse 31, 33729 Bielefeld (Ostwestfalen-Lippe / OWL)
-- E-Mail: Rabi.19@icloud.com
+- E-Mail: KundenPilot@gmail.com
 - WhatsApp: https://wa.me/4917687910568
 - Website: https://www.kundenpilot.site
 - LOKALER VORTEIL: Wir sind selbst in Bielefeld ansaessig und kennen die Region OWL sehr gut.

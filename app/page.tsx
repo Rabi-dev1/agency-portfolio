@@ -58,25 +58,25 @@ const projects = [
     src: "/akanjuwelier.jpg",
     name: "Akan Juwelier",
     category: "Einzelhandel",
-    result: "Automatische Anfragebeantwortung via WhatsApp",
+    result: "Moderne Website mit automatischer Anfragebeantwortung via WhatsApp",
   },
   {
     src: "/kenjujuwelier.jpg",
     name: "Kenju Juwelier",
     category: "Juwelier",
-    result: "Terminbuchung & Produktanfragen automatisiert",
+    result: "Moderne Website mit Terminbuchung & Produktberatung",
   },
   {
     src: "/lokispasta.jpg",
     name: "Loki's Pasta",
     category: "Gastronomie",
-    result: "WhatsApp-Marketing mit >90% Öffnungsrate",
+    result: "Moderne Website für Gastronomie mit Reservierungsfunktion",
   },
   {
     src: "/luzdeluna.jpg",
     name: "Luz de Luna",
     category: "Dienstleistung",
-    result: "24/7 Chatbot für Kundenanfragen",
+    result: "Moderne Website mit integriertem Chatbot",
   },
 ];
 
@@ -227,10 +227,10 @@ export default function Home() {
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
-            <p className="text-blue-700 font-semibold text-sm uppercase tracking-widest mb-3">Erste Referenzen</p>
-            <h2 className="text-4xl font-extrabold text-slate-900 mb-4">Lokale Unternehmen, die bereits automatisieren</h2>
+            <p className="text-blue-700 font-semibold text-sm uppercase tracking-widest mb-3">Referenzen</p>
+            <h2 className="text-4xl font-extrabold text-slate-900 mb-4">Lokale Unternehmen, die uns vertrauen</h2>
             <p className="text-slate-500 text-lg max-w-xl mx-auto">
-              Echte Projekte. Echte Ergebnisse. Für Unternehmen in Bielefeld und der Region OWL.
+              Moderne Websites erfolgreich umgesetzt in Bielefeld und OWL.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -331,7 +331,7 @@ export default function Home() {
             </svg>
             Jetzt auf WhatsApp schreiben
           </a>
-          <p className="text-slate-500 text-sm mt-4">+49 176 87910568 · Gharbi Mshko · Bielefeld</p>
+          <p className="text-slate-500 text-sm mt-4">KundenPilot@gmail.com · Bielefeld & OWL</p>
         </div>
       </section>
 

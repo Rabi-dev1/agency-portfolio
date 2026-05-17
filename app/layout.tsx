@@ -50,8 +50,7 @@ const localBusinessSchema = {
   description:
     "KI-Chatbots, WhatsApp-Marketing und Prozessautomatisierung für lokale Unternehmen in Bielefeld und OWL.",
   url: "https://www.kundenpilot.site",
-  telephone: "+4917687910568",
-  email: "Rabi.19@icloud.com",
+  email: "KundenPilot@gmail.com",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Büsumerstraße 31",

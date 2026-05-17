@@ -1,32 +1,12 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Kontakt – Kundenpilot",
+  title: "Kontakt – Kundenpilot Bielefeld",
   description:
-    "Kontaktieren Sie Kundenpilot für KI-Chatbots, WhatsApp-Marketing und Prozessautomatisierung. Kostenloses Erstgespräch – wir melden uns innerhalb von 24 Stunden.",
+    "Kontaktieren Sie Kundenpilot für KI-Chatbots, WhatsApp-Marketing und Prozessautomatisierung in Bielefeld & OWL. Kostenloses Erstgespräch – wir melden uns innerhalb von 24 Stunden.",
 };
 
 const contactItems = [
-  {
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-      </svg>
-    ),
-    label: "E-Mail",
-    value: "Rabi.19@icloud.com",
-    href: "mailto:Rabi.19@icloud.com",
-  },
-  {
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-      </svg>
-    ),
-    label: "Telefon",
-    value: "0176 87910568",
-    href: "tel:+4917687910568",
-  },
   {
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -36,17 +16,18 @@ const contactItems = [
     label: "WhatsApp",
     value: "+49 176 87910568",
     href: "https://wa.me/4917687910568",
+    highlight: true,
   },
   {
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
       </svg>
     ),
-    label: "Adresse",
-    value: "Büsumerstraße 31, 33729 Bielefeld",
-    href: null,
+    label: "E-Mail",
+    value: "KundenPilot@gmail.com",
+    href: "mailto:KundenPilot@gmail.com",
+    highlight: false,
   },
 ];
 
@@ -70,23 +51,37 @@ export default function ContactPage() {
           <div>
             <h2 className="text-2xl font-bold text-slate-900 mb-2">Direkter Kontakt</h2>
             <p className="text-slate-500 mb-8 leading-relaxed">
-              Wählen Sie den Weg, der für Sie am bequemsten ist.
+              Wählen Sie den Weg, der für Sie am bequemsten ist. Wir antworten persönlich – kein Callcenter, kein Ticket-System.
             </p>
-            <div className="space-y-5">
-              {contactItems.map(({ icon, label, value, href }) => (
-                <div key={label} className="flex items-start gap-4 p-4 rounded-xl border border-slate-100 hover:border-blue-100 hover:bg-blue-50/30 transition-colors">
-                  <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-700 flex-shrink-0">
+            <div className="space-y-4">
+              {contactItems.map(({ icon, label, value, href, highlight }) => (
+                <div
+                  key={label}
+                  className={`flex items-start gap-4 p-4 rounded-xl border transition-colors ${
+                    highlight
+                      ? "border-green-200 bg-green-50/50 hover:bg-green-50"
+                      : "border-slate-100 hover:border-blue-100 hover:bg-blue-50/30"
+                  }`}
+                >
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                      highlight ? "bg-[#25D366]/10 text-[#25D366]" : "bg-blue-50 text-blue-700"
+                    }`}
+                  >
                     {icon}
                   </div>
                   <div>
                     <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-0.5">{label}</p>
-                    {href ? (
-                      <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="text-slate-800 font-medium hover:text-blue-700 transition-colors">
-                        {value}
-                      </a>
-                    ) : (
-                      <p className="text-slate-800 font-medium">{value}</p>
-                    )}
+                    <a
+                      href={href}
+                      target={href.startsWith("http") ? "_blank" : undefined}
+                      rel="noopener noreferrer"
+                      className={`font-medium transition-colors ${
+                        highlight ? "text-[#25D366] hover:text-green-700" : "text-slate-800 hover:text-blue-700"
+                      }`}
+                    >
+                      {value}
+                    </a>
                   </div>
                 </div>
               ))}
@@ -104,6 +99,11 @@ export default function ContactPage() {
               </svg>
               Direkt auf WhatsApp schreiben
             </a>
+
+            <div className="mt-6 p-4 bg-slate-50 rounded-xl border border-slate-100 text-sm text-slate-500 leading-relaxed">
+              💡 <strong className="text-slate-700">Tipp:</strong> WhatsApp ist der schnellste Weg.
+              Wir antworten meistens innerhalb weniger Stunden – persönlich, ohne automatische Antwort.
+            </div>
           </div>
 
           {/* Contact Form */}
@@ -111,7 +111,7 @@ export default function ContactPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-2">Nachricht senden</h2>
             <p className="text-slate-500 mb-8">Wir antworten innerhalb von 24 Stunden.</p>
             <form
-              action="mailto:Rabi.19@icloud.com"
+              action="mailto:KundenPilot@gmail.com"
               method="GET"
               encType="text/plain"
               className="space-y-5"
