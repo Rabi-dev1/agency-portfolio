@@ -7,60 +7,67 @@ interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
-  timestamp: Date;
 }
 
 const INITIAL_MESSAGE: Message = {
   id: "init",
   role: "assistant",
   content:
-    "Hallo! 👋 Ich bin **Pilot**, der KI-Assistent von KundenPilot.\n\nIch helfe Ihnen herauszufinden, wie wir Ihr Unternehmen mit KI-Automatisierung voranbringen können – und ich bin selbst der Beweis, dass unsere Chatbots funktionieren. 😊\n\nWomit kann ich Ihnen helfen?",
-  timestamp: new Date(),
+    "Hey! 👋 Ich bin **Pilo**, dein KI-Assistent von KundenPilot.\n\nWie kann ich dir helfen?",
 };
 
 const QUICK_REPLIES = [
-  "Was ist KundenPilot?",
+  "Was macht KundenPilot?",
   "Wie funktioniert der Chatbot?",
-  "Für welche Branchen?",
-  "Demo anfragen 🚀",
+  "Preise & Pakete",
+  "Kostenlose Demo 🚀",
 ];
+
+// Avatar: pilo-avatar.png falls vorhanden, sonst logo.png
+const AVATAR_SRC = "/pilo-avatar.png";
+const AVATAR_FALLBACK = "/logo.png";
 
 function TypingIndicator() {
   return (
-    <div className="flex items-end gap-2">
-      <div className="w-6 h-6 flex-shrink-0">
-        <Image src="/logo.png" alt="Bot" width={24} height={24} className="rounded-full" />
+    <div className="flex items-end gap-2.5">
+      <div className="w-8 h-8 flex-shrink-0">
+        <PiloAvatar size={32} />
       </div>
-      <div className="flex items-center gap-1 px-4 py-3 bg-white rounded-2xl rounded-tl-sm shadow-sm border border-slate-100">
-        <span
-          className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
-          style={{ animationDelay: "0ms" }}
-        />
-        <span
-          className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
-          style={{ animationDelay: "160ms" }}
-        />
-        <span
-          className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
-          style={{ animationDelay: "320ms" }}
-        />
+      <div className="flex items-center gap-1.5 px-4 py-3 bg-white rounded-2xl rounded-tl-sm shadow-sm border border-slate-100">
+        <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+        <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "160ms" }} />
+        <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: "320ms" }} />
       </div>
     </div>
   );
 }
 
+function PiloAvatar({ size = 40 }: { size?: number }) {
+  const [src, setSrc] = useState(AVATAR_SRC);
+  return (
+    <Image
+      src={src}
+      alt="Pilo"
+      width={size}
+      height={size}
+      className="rounded-full object-cover"
+      onError={() => setSrc(AVATAR_FALLBACK)}
+    />
+  );
+}
+
 function BotMessage({ content }: { content: string }) {
-  const formatted = content
+  const html = content
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
     .replace(/\n/g, "<br/>");
   return (
-    <div className="flex items-end gap-2">
-      <div className="w-6 h-6 flex-shrink-0">
-        <Image src="/logo.png" alt="Pilot" width={24} height={24} className="rounded-full" />
+    <div className="flex items-end gap-2.5">
+      <div className="w-8 h-8 flex-shrink-0">
+        <PiloAvatar size={32} />
       </div>
       <div
-        className="max-w-[78%] bg-white text-slate-800 px-4 py-2.5 rounded-2xl rounded-tl-sm shadow-sm border border-slate-100 text-sm leading-relaxed"
-        dangerouslySetInnerHTML={{ __html: formatted }}
+        className="max-w-[80%] bg-white text-slate-800 px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm border border-slate-100 text-sm leading-relaxed"
+        dangerouslySetInnerHTML={{ __html: html }}
       />
     </div>
   );
@@ -69,7 +76,7 @@ function BotMessage({ content }: { content: string }) {
 function UserMessage({ content }: { content: string }) {
   return (
     <div className="flex justify-end">
-      <div className="max-w-[78%] bg-blue-700 text-white px-4 py-2.5 rounded-2xl rounded-tr-sm text-sm leading-relaxed">
+      <div className="max-w-[80%] bg-blue-700 text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm leading-relaxed">
         {content}
       </div>
     </div>
@@ -78,78 +85,66 @@ function UserMessage({ content }: { content: string }) {
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showTeaser, setShowTeaser] = useState(false);
   const [showBadge, setShowBadge] = useState(false);
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [quickRepliesShown, setQuickRepliesShown] = useState(true);
+  const [quickRepliesVisible, setQuickRepliesVisible] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Show notification badge after 8 seconds
+  // Teaser-Bubble nach 10s, Badge nach 6s
   useEffect(() => {
-    const timer = setTimeout(() => setShowBadge(true), 8000);
-    return () => clearTimeout(timer);
+    const t1 = setTimeout(() => setShowBadge(true), 6000);
+    const t2 = setTimeout(() => setShowTeaser(true), 10000);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
-  // Scroll to bottom on new messages
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, 50);
+      setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }), 60);
     }
-  }, [messages, isOpen, isLoading]);
+  }, [messages, isLoading, isOpen]);
 
-  // Focus input when chat opens
   useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 100);
-    }
+    if (isOpen) setTimeout(() => inputRef.current?.focus(), 120);
   }, [isOpen]);
+
+  const open = () => {
+    setIsOpen(true);
+    setShowBadge(false);
+    setShowTeaser(false);
+  };
 
   const sendMessage = useCallback(
     async (text: string) => {
       if (!text.trim() || isLoading) return;
+      setQuickRepliesVisible(false);
 
-      setQuickRepliesShown(false);
-      setShowBadge(false);
-
-      const userMessage: Message = {
-        id: `u-${Date.now()}`,
-        role: "user",
-        content: text,
-        timestamp: new Date(),
-      };
-
-      setMessages((prev) => [...prev, userMessage]);
+      const userMsg: Message = { id: `u-${Date.now()}`, role: "user", content: text };
+      setMessages((prev) => [...prev, userMsg]);
       setInput("");
       setIsLoading(true);
 
       try {
-        const allMessages = [...messages, userMessage];
         const res = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            messages: allMessages.map((m) => ({
+            messages: [...messages, userMsg].map((m) => ({
               role: m.role,
               content: m.content,
             })),
           }),
         });
-
         const data = await res.json();
-
         setMessages((prev) => [
           ...prev,
           {
             id: `a-${Date.now()}`,
             role: "assistant",
-            content:
-              data.reply ||
-              "Entschuldigung, bitte versuchen Sie es erneut oder schreiben Sie uns auf WhatsApp.",
-            timestamp: new Date(),
+            content: data.reply ?? "Entschuldigung, bitte versuche es nochmal.",
           },
         ]);
       } catch {
@@ -159,8 +154,7 @@ export default function ChatWidget() {
             id: `err-${Date.now()}`,
             role: "assistant",
             content:
-              "Entschuldigung, ich habe gerade technische Schwierigkeiten. Schreiben Sie uns direkt auf WhatsApp: https://wa.me/4917687910568 🙏",
-            timestamp: new Date(),
+              "Gerade technische Schwierigkeiten. Schreib uns direkt auf WhatsApp: https://wa.me/4917687910568 🙏",
           },
         ]);
       } finally {
@@ -170,103 +164,75 @@ export default function ChatWidget() {
     [messages, isLoading]
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    sendMessage(input);
-  };
-
   return (
     <>
-      {/* ── Chat Window ── */}
+      {/* ── Chat-Fenster ── */}
       <div
-        className={`fixed bottom-24 right-6 z-50 w-[370px] max-w-[calc(100vw-24px)] bg-white rounded-2xl shadow-2xl shadow-slate-900/25 border border-slate-100 flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right ${
-          isOpen
-            ? "opacity-100 scale-100 pointer-events-auto"
-            : "opacity-0 scale-95 pointer-events-none"
-        }`}
-        style={{ height: "530px" }}
+        className={`fixed bottom-28 right-5 z-50 flex flex-col bg-white rounded-2xl shadow-2xl shadow-slate-900/25 border border-slate-100 overflow-hidden transition-all duration-300 origin-bottom-right
+          w-[390px] max-w-[calc(100vw-20px)]
+          ${isOpen ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"}`}
+        style={{ height: "560px" }}
       >
         {/* Header */}
-        <div className="bg-slate-900 px-4 py-3 flex items-center gap-3 flex-shrink-0">
+        <div className="bg-slate-900 px-4 py-3.5 flex items-center gap-3 flex-shrink-0">
           <div className="relative flex-shrink-0">
-            <Image
-              src="/logo.png"
-              alt="KundenPilot"
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
+            <PiloAvatar size={44} />
             <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-slate-900" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-white font-bold text-sm">Pilot</p>
-            <p className="text-slate-400 text-xs">KundenPilot KI-Assistent · Online</p>
+            <p className="text-white font-bold text-base leading-tight">Pilo</p>
+            <p className="text-slate-400 text-xs">KundenPilot · Online</p>
           </div>
           <button
             onClick={() => setIsOpen(false)}
-            className="text-slate-400 hover:text-white transition-colors p-1 rounded-lg hover:bg-slate-800"
-            aria-label="Chat schließen"
+            className="text-slate-400 hover:text-white transition-colors p-1.5 rounded-lg hover:bg-slate-800"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        {/* Privacy bar */}
+        {/* DSGVO */}
         <div className="bg-blue-50 border-b border-blue-100 px-4 py-1.5 flex items-center justify-center gap-1.5 flex-shrink-0">
-          <svg className="w-3 h-3 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-              clipRule="evenodd"
-            />
+          <svg className="w-3 h-3 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
           </svg>
           <p className="text-xs text-blue-600">
             Vertraulich · DSGVO-konform ·{" "}
-            <a href="/datenschutz" className="underline" target="_blank">
-              Datenschutz
-            </a>
+            <a href="/datenschutz" className="underline" target="_blank">Datenschutz</a>
           </p>
         </div>
 
-        {/* Messages */}
+        {/* Nachrichten */}
         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-slate-50">
           {messages.map((msg) =>
-            msg.role === "user" ? (
-              <UserMessage key={msg.id} content={msg.content} />
-            ) : (
-              <BotMessage key={msg.id} content={msg.content} />
-            )
+            msg.role === "user"
+              ? <UserMessage key={msg.id} content={msg.content} />
+              : <BotMessage key={msg.id} content={msg.content} />
           )}
 
-          {/* Quick replies – only after initial message */}
-          {quickRepliesShown && messages.length === 1 && !isLoading && (
+          {/* Quick Replies */}
+          {quickRepliesVisible && messages.length === 1 && !isLoading && (
             <div className="flex flex-wrap gap-2 pt-1">
-              {QUICK_REPLIES.map((reply) => (
+              {QUICK_REPLIES.map((r) => (
                 <button
-                  key={reply}
-                  onClick={() => sendMessage(reply)}
+                  key={r}
+                  onClick={() => sendMessage(r)}
                   className="bg-white border border-blue-200 text-blue-700 text-xs font-medium px-3 py-1.5 rounded-full hover:bg-blue-50 hover:border-blue-400 transition-colors shadow-sm"
                 >
-                  {reply}
+                  {r}
                 </button>
               ))}
             </div>
           )}
 
           {isLoading && <TypingIndicator />}
-
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Escalation bar */}
-        <div className="px-4 py-2 bg-white border-t border-slate-100 flex items-center justify-between gap-2 flex-shrink-0">
+        {/* Eskalation */}
+        <div className="px-4 py-2 bg-white border-t border-slate-100 flex items-center justify-between flex-shrink-0">
           <p className="text-xs text-slate-400">Lieber mit einem Menschen?</p>
           <a
             href="https://wa.me/4917687910568"
@@ -282,10 +248,7 @@ export default function ChatWidget() {
         </div>
 
         {/* Input */}
-        <form
-          onSubmit={handleSubmit}
-          className="px-3 pb-3 pt-2 bg-white flex gap-2 flex-shrink-0"
-        >
+        <form onSubmit={(e) => { e.preventDefault(); sendMessage(input); }} className="px-3 pb-3 pt-2 bg-white flex gap-2 flex-shrink-0">
           <input
             ref={inputRef}
             type="text"
@@ -293,51 +256,50 @@ export default function ChatWidget() {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Nachricht schreiben..."
             disabled={isLoading}
-            className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-60 transition-shadow"
+            className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-50 transition-shadow"
           />
           <button
             type="submit"
             disabled={!input.trim() || isLoading}
-            className="bg-blue-700 hover:bg-blue-600 disabled:bg-slate-200 text-white disabled:text-slate-400 p-2.5 rounded-xl transition-colors flex-shrink-0"
-            aria-label="Senden"
+            className="bg-blue-700 hover:bg-blue-600 disabled:bg-slate-200 text-white disabled:text-slate-400 p-3 rounded-xl transition-colors flex-shrink-0"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
             </svg>
           </button>
         </form>
       </div>
 
-      {/* ── Toggle Button ── */}
+      {/* ── Teaser-Bubble ── */}
+      {showTeaser && !isOpen && (
+        <div
+          className="fixed bottom-32 right-24 z-40 bg-slate-900 text-white text-sm font-medium px-4 py-2.5 rounded-2xl rounded-br-sm shadow-xl cursor-pointer hover:bg-slate-800 transition-colors max-w-[220px]"
+          onClick={open}
+        >
+          👋 Hast du Fragen? Ich helfe gerne!
+          <div className="absolute -bottom-2 right-4 w-3 h-3 bg-slate-900 rotate-45" />
+        </div>
+      )}
+
+      {/* ── Floating Button ── */}
       <button
-        onClick={() => {
-          setIsOpen(!isOpen);
-          setShowBadge(false);
-        }}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-slate-900 hover:bg-slate-800 text-white rounded-full shadow-2xl shadow-slate-900/40 flex items-center justify-center transition-all duration-300 hover:scale-110 group"
-        aria-label={isOpen ? "Chat schließen" : "Chat öffnen"}
+        onClick={() => { isOpen ? setIsOpen(false) : open(); }}
+        className="fixed bottom-5 right-5 z-50 w-16 h-16 bg-slate-900 hover:bg-slate-800 rounded-full shadow-2xl shadow-slate-900/40 flex items-center justify-center transition-all duration-300 hover:scale-110"
+        aria-label={isOpen ? "Chat schließen" : "Chat mit Pilo öffnen"}
       >
-        {/* Notification badge */}
+        {/* Badge */}
         {showBadge && !isOpen && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-bounce">
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
             1
           </span>
         )}
 
-        <div
-          className={`transition-all duration-300 ${isOpen ? "scale-0 opacity-0 absolute" : "scale-100 opacity-100"}`}
-        >
-          <Image src="/logo.png" alt="KundenPilot Chat" width={42} height={42} className="rounded-full" />
+        {/* Avatar / Close Icon */}
+        <div className={`transition-all duration-200 ${isOpen ? "scale-0 opacity-0 absolute" : "scale-100 opacity-100"}`}>
+          <PiloAvatar size={48} />
         </div>
-        <div
-          className={`transition-all duration-300 ${isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0 absolute"}`}
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className={`transition-all duration-200 ${isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0 absolute"}`}>
+          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </div>
