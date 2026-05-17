@@ -83,7 +83,7 @@ export default function Home() {
               KI-Automatisierung · WhatsApp · Chatbots
             </div>
             {/* Pilo Hinweis */}
-            <div className="inline-flex items-center gap-2 bg-green-900/30 text-green-300 text-xs font-medium px-3 py-1.5 rounded-full mb-4 border border-green-700/30 animate-fade-up cursor-pointer" onClick={() => {}}>
+            <div className="inline-flex items-center gap-2 bg-green-900/30 text-green-300 text-xs font-medium px-3 py-1.5 rounded-full mb-4 border border-green-700/30 animate-fade-up">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               💬 Pilo ist online – frag ihn direkt unten rechts!
             </div>
