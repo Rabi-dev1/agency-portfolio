@@ -85,7 +85,6 @@ function UserMessage({ content }: { content: string }) {
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [showTeaser, setShowTeaser] = useState(false);
   const [showBadge, setShowBadge] = useState(false);
   const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [input, setInput] = useState("");
@@ -94,11 +93,10 @@ export default function ChatWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Teaser-Bubble nach 10s, Badge nach 6s
+  // Badge nach 8s
   useEffect(() => {
-    const t1 = setTimeout(() => setShowBadge(true), 6000);
-    const t2 = setTimeout(() => setShowTeaser(true), 10000);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    const t1 = setTimeout(() => setShowBadge(true), 8000);
+    return () => { clearTimeout(t1); };
   }, []);
 
   useEffect(() => {
@@ -114,7 +112,6 @@ export default function ChatWidget() {
   const open = () => {
     setIsOpen(true);
     setShowBadge(false);
-    setShowTeaser(false);
   };
 
   const sendMessage = useCallback(
@@ -270,20 +267,9 @@ export default function ChatWidget() {
         </form>
       </div>
 
-      {/* ── Teaser-Bubble ── */}
-      {showTeaser && !isOpen && (
-        <div
-          className="fixed bottom-32 right-24 z-40 bg-slate-900 text-white text-sm font-medium px-4 py-2.5 rounded-2xl rounded-br-sm shadow-xl cursor-pointer hover:bg-slate-800 transition-colors max-w-[220px]"
-          onClick={open}
-        >
-          👋 Hast du Fragen? Ich helfe gerne!
-          <div className="absolute -bottom-2 right-4 w-3 h-3 bg-slate-900 rotate-45" />
-        </div>
-      )}
-
       {/* ── Floating Button ── */}
       <button
-        onClick={() => { isOpen ? setIsOpen(false) : open(); }}
+        onClick={() => isOpen ? setIsOpen(false) : open()}
         className="fixed bottom-5 right-5 z-50 w-16 h-16 bg-slate-900 hover:bg-slate-800 rounded-full shadow-2xl shadow-slate-900/40 flex items-center justify-center transition-all duration-300 hover:scale-110"
         aria-label={isOpen ? "Chat schließen" : "Chat mit Pilo öffnen"}
       >
