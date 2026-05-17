@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import ChatWidget from "@/components/ChatWidget";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -41,7 +42,10 @@ export default function RootLayout({
         <Navigation />
         <div className="flex-1 pt-[68px]">{children}</div>
         <Footer />
+        {/* WhatsApp – unten links */}
         <WhatsAppButton />
+        {/* KI-Chat-Widget – unten rechts */}
+        <ChatWidget />
       </body>
     </html>
   );
