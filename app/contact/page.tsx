@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Kontakt – Kundenpilot Bielefeld",
@@ -110,92 +111,7 @@ export default function ContactPage() {
           <div>
             <h2 className="text-2xl font-bold text-slate-900 mb-2">Nachricht senden</h2>
             <p className="text-slate-500 mb-8">Wir antworten innerhalb von 24 Stunden.</p>
-            <form
-              action="mailto:KundenPilot@gmail.com"
-              method="GET"
-              encType="text/plain"
-              className="space-y-5"
-            >
-              <div className="grid sm:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="name">
-                    Name *
-                  </label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    placeholder="Max Mustermann"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition-shadow"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="company">
-                    Unternehmen
-                  </label>
-                  <input
-                    id="company"
-                    name="company"
-                    type="text"
-                    placeholder="Muster GmbH"
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition-shadow"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="email">
-                  E-Mail *
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="max@beispiel.de"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition-shadow"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="subject">
-                  Ich interessiere mich für
-                </label>
-                <select
-                  id="subject"
-                  name="subject"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm bg-white"
-                >
-                  <option value="">Bitte wählen...</option>
-                  <option>KI-Chatbot</option>
-                  <option>WhatsApp-Marketing</option>
-                  <option>Prozessautomatisierung</option>
-                  <option>Allgemeine Anfrage</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5" htmlFor="message">
-                  Nachricht *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows={5}
-                  placeholder="Beschreiben Sie kurz Ihr Anliegen..."
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none transition-shadow"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-700 hover:bg-blue-600 text-white font-semibold py-4 rounded-xl transition-all duration-200 shadow-md shadow-blue-100 hover:-translate-y-0.5"
-              >
-                Nachricht senden
-              </button>
-              <p className="text-xs text-slate-400 text-center">
-                Mit dem Absenden stimmen Sie unserer{" "}
-                <a href="/datenschutz" className="underline hover:text-slate-600">Datenschutzerklärung</a> zu.
-              </p>
-            </form>
+            <ContactForm />
           </div>
         </div>
       </section>
