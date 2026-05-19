@@ -1,16 +1,15 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    if (!process.env.RESEND_API_KEY) {
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
       return NextResponse.json(
-        { error: "E-Mail-Service nicht konfiguriert. Bitte schreibe uns direkt auf WhatsApp." },
+        { error: "E-Mail nicht konfiguriert. Bitte schreib uns direkt auf WhatsApp." },
         { status: 503 }
       );
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
     const { name, company, email, subject, message } = await req.json();
 
     if (!name || !email || !message) {
@@ -20,9 +19,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    await resend.emails.send({
-      from: "KundenPilot Website <onboarding@resend.dev>",
-      to: ["KundenPilot@gmail.com"],
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD,
+      },
+    });
+
+    await transporter.sendMail({
+      from: `"KundenPilot Website" <${process.env.GMAIL_USER}>`,
+      to: process.env.GMAIL_USER,
       replyTo: email,
       subject: `Neue Anfrage: ${subject || "Allgemeine Anfrage"} – von ${name}`,
       html: `
